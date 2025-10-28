@@ -16,20 +16,13 @@ func main() {
 }
 
 func twoSum(nums []int, target int) []int {
-
-	sum := 0
-
-	aux := []int{}
-
-	for k, v := range nums {
+	for k, _ := range nums {
 		for i := k + 1; i < len(nums); i++ {
-			sum = v + nums[i]
-			if sum == target {
-				aux = append(aux, k, i)
-				return aux
+			if nums[i] == target-nums[k] {
+				return []int{k, i}
 			}
 		}
 	}
 
-	return aux
+	return []int{}
 }

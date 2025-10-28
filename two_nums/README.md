@@ -31,23 +31,19 @@ Only one valid answer exists.
 ## Solution 1
 ```go
 func twoSum(nums []int, target int) []int {
-
-	sum := 0
-
-	aux := []int{}
-
-	for k, v := range nums {
+	for k, _ := range nums {
 		for i := k + 1; i < len(nums); i++ {
-			sum = v + nums[i]
-			if sum == target {
-				aux = append(aux, k, i)
-				return aux
+			if nums[i] == target - nums[k] {
+				return []int{k,i}
 			}
 		}
 	}
 
-	return aux
+	return []int{}
 }
 ```
-Time:  O(n2)
-Space: O(n)
+Time:  O(n2) -> Quadratic: The algorithm’s execution time grows proportionally to the square of the input size. Ex: 1, 2, 4, 8, 16, 32...
+Space: O(1) -> constant space - same amount of memory regardless the input size -
+
+
+
