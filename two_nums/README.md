@@ -29,6 +29,7 @@ Only one valid answer exists.
 
 
 ## Solution 1
+
 ```go
 func twoSum(nums []int, target int) []int {
 	for k, _ := range nums {
@@ -42,8 +43,37 @@ func twoSum(nums []int, target int) []int {
 	return []int{}
 }
 ```
-Time:  O(n2) -> Quadratic: The algorithm’s execution time grows proportionally to the square of the input size. Ex: 1, 2, 4, 8, 16, 32...
-Space: O(1) -> constant space - same amount of memory regardless the input size -
+Time complexity:  O(n2) 
+Quadratic: The algorithm’s execution time grows proportionally to the square of the input size. Ex: 1, 2, 4, 8, 16, 32...
+Space complexity: O(1)
+Constant space - same amount of memory regardless the input size -   
 
+
+## Solution 2
+
+```go
+func twoSum(nums []int, target int) []int {
+	m := make(map[int]int)
+
+	for k, v := range nums {
+		value := target - nums[k]
+		if j, ok := m[value]; ok {
+			return []int{k, j}
+		}
+		m[v] = k
+	}
+
+	return []int{}
+
+}
+```
+
+Iterating and inserting elements into the hash table (map) and check if current element's value already exists in the hash table. If it exists, we have found a solution and return the indices immediately.
+
+Time complexity: O(n).
+We traverse the list containing n elements exactly twice. Since the hash table reduces the lookup time to O(1), the overall time complexity is O(n).
+
+Space complexity: O(n).
+The extra space required depends on the number of items stored in the hash table, which stores exactly n elements.
 
 
