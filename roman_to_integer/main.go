@@ -2,81 +2,38 @@ package main
 
 import "fmt"
 
-var (
-	I int = 1
-	V int = 5
-	X int = 10
-	L int = 50
-	C int = 100
-	D int = 500
-	M int = 1000
-)
-
 func main() {
 
-	s := "MMMCC"
+	s := "III"
 	fmt.Println("res:", romanToInt(s))
 }
 
 func romanToInt(s string) int {
 
-	var res int = 0
+	nums := map[byte]int{
+		'I': 1,
+		'V': 5,
+		'X': 10,
+		'L': 50,
+		'C': 100,
+		'D': 500,
+		'M': 1000,
+	}
 
-	i := 0
-	for i < len(s) {
-		switch s[i] {
-		case 'I':
-			if i < len(s)-1 {
-				if s[i+1] == 'V' {
-					res += 4
-					i++
-				} else if s[i+1] == 'X' {
-					res += 9
-					i++
-				} else {
-					res += I
-				}
-			} else {
-				res += I
-			}
-		case 'V':
-			res += V
-		case 'X':
-			if i < len(s)-1 {
-				if s[i+1] == 'L' {
-					res += 40
-					i++
-				} else if s[i+1] == 'C' {
-					res += 90
-					i++
-				} else {
-					res += X
-				}
-			} else {
-				res += X
-			}
-		case 'L':
-			res += L
-		case 'C':
-			if i < len(s)-1 {
-				if s[i+1] == 'D' {
-					res += 400
-					i++
-				} else if s[i+1] == 'M' {
-					res += 900
-					i++
-				} else {
-					res += C
-				}
-			} else {
-				res += C
-			}
-		case 'D':
-			res += D
-		case 'M':
-			res += M
+	res := 0
+
+	for i := 0; i < len(s); i++ {
+
+		fmt.Println("index", i)
+
+		if i+1 < len(s) && nums[s[i]] < nums[s[i+1]] {
+			res -= nums[s[i]]
+		} else {
+			res += nums[s[i]]
 		}
-		i++
+
+		fmt.Printf("res: %d\n", res)
+
 	}
 
 	return res

@@ -45,12 +45,7 @@ Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
 It is guaranteed that s is a valid roman numeral in the range [1, 3999].
 
-## Problem breakdown
-
-
-
-
-## Solution 1
+## Solution 1 
 
 This solution runs in linear time (O(n)) but is inefficient in structure and style. However, it allowed me to practice `switch` statements and observe that in Go, `i++` and `i--` are allowed only as statements, not expressions. Therefore, `arr[i++]` fails at compile time, whereas `arr[i+1]` works.
 
@@ -139,3 +134,100 @@ func romanToInt(s string) int {
 	return res
 }
 ```
+
+## Solution 2
+
+```go
+func romanToInt(s string) int {
+
+	nums := map[byte]int{
+		'I': 1,
+		'V': 5,
+		'X': 10,
+		'L': 50,
+		'C': 100,
+		'D': 500,
+		'M': 1000,
+	}
+
+	res := 0
+
+	for i := 0; i < len(s); i++ {
+
+		fmt.Println("index", i)
+
+		if i+1 < len(s) && nums[s[i]] < nums[s[i+1]] {
+			res -= nums[s[i]]
+		} else {
+			res += nums[s[i]]
+		}
+
+		fmt.Printf("res: %d\n", res)
+
+	}
+
+	return res
+}
+```
+## Explanation
+
+It works because of how **Roman numerals encode subtraction**. The algorithm’s rule—**subtract if the current value is less than the next; otherwise add**—replicates the Roman numeral system’s positional logic.
+
+---
+
+### **1. Roman numeral principle**
+
+Roman numerals are additive **unless** a smaller numeral precedes a larger one.
+Examples:
+
+* `VI` → 5 + 1 = 6 (additive order)
+* `IV` → 5 − 1 = 4 (subtractive order)
+
+The *direction* of the comparison determines addition or subtraction.
+
+---
+
+### **2. Algorithmic idea**
+
+For a Roman string `s`, read from left to right:
+
+* Let `v[i]` be the value of `s[i]`.
+* If `v[i] < v[i+1]`, subtract `v[i]`.
+* Else, add `v[i]`.
+
+This works because only valid Roman numerals follow the subtractive rule in exactly those cases (I before V or X, X before L or C, C before D or M).
+
+---
+
+### **3. Example: MCMXCIV**
+
+| Char | Value | Next | Rule | Operation | Result |
+| ---- | ----- | ---- | ---- | --------- | ------ |
+| M    | 1000  | C    | >    | add       | 1000   |
+| C    | 100   | M    | <    | subtract  | 900    |
+| M    | 1000  | X    | >    | add       | 1900   |
+| X    | 10    | C    | <    | subtract  | 1890   |
+| C    | 100   | I    | >    | add       | 1990   |
+| I    | 1     | V    | <    | subtract  | 1989   |
+| V    | 5     | —    | add  | 1994      |        |
+
+---
+
+### **4. Why it always works**
+
+* Roman numerals are *monotonic* except at valid subtractive pairs.
+* Each subtractive case uses exactly one smaller–before–larger pair.
+* Thus, checking `current < next` correctly captures those pairs.
+
+---
+
+### **5. Complexity**
+
+* **Time:** O(n) — one pass
+* **Space:** O(1)
+
+---
+
+### **Summary**
+
+The rule works because Roman numerals are **mostly additive** with **explicit subtractive exceptions**, and comparing adjacent values is enough to detect them. The algorithm is simple, linear, and exact for all valid Roman numerals.
