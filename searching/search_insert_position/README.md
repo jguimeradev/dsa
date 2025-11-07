@@ -70,28 +70,28 @@ Time complexity:  O(log n)
 ## Solution 2
 
 ```go
-func twoSum(nums []int, target int) []int {
-	m := make(map[int]int)
+func searchInsert(nums []int, target int) int {
 
-	for k, v := range nums {
-		value := target - nums[k]
-		if j, ok := m[value]; ok {
-			return []int{k, j}
-		}
-		m[v] = k
+	low := 0
+	high := len(nums) - 1
+
+	for low <= high {
+
+		mid := (high + low) / 2
+
+		if target < nums[mid] {
+			high = mid - 1
+		} else if target > nums[mid] {
+			low = mid + 1
+		} else {
+            return mid
+        }
+
 	}
-
-	return []int{}
-
+    return low
 }
 ```
-
-Iterating and inserting elements into the hash table (map) and check if current element's value already exists in the hash table. If it exists, we have found a solution and return the indices immediately.
-
-Time complexity: O(n).
-We traverse the list containing n elements exactly twice. Since the hash table reduces the lookup time to O(1), the overall time complexity is O(n).
-
-Space complexity: O(n).
-The extra space required depends on the number of items stored in the hash table, which stores exactly n elements.
+Explanation here:
+[Link](https://www.youtube.com/watch?v=v4J_AWp-6EQ&t=359s)
 
 

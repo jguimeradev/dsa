@@ -11,30 +11,16 @@ func searchInsert(nums []int, target int) int {
 
 		mid := (high + low) / 2
 
-		if target == nums[mid] {
+		if target < nums[mid] {
+			high = mid - 1
+		} else if target > nums[mid] {
+			low = mid + 1
+		} else {
 			return mid
 		}
 
-		if target < nums[0] {
-			return 0
-		} else if target > nums[high] {
-			return high + 1
-		}
-
-		if target < nums[mid] {
-			high = mid - 1
-			if target > nums[high] {
-				return high + 1
-			}
-		} else if target > nums[mid] {
-			low = mid + 1
-			if target < nums[low] {
-				return low
-			}
-		}
 	}
-
-	return 0
+	return low
 }
 
 func main() {
