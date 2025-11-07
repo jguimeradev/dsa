@@ -19,13 +19,13 @@ func binarySearch(nums []int, target int) int {
 	for low <= up {
 		mid := (low + up) / 2
 		fmt.Println("mid", mid)
-		if target == nums[mid] {
-			return nums[mid]
-		}
+
 		if target < nums[mid] {
 			up = mid - 1
-		} else {
+		} else if target > nums[mid] {
 			low = mid + 1
+		} else {
+			return nums[mid]
 		}
 
 	}
